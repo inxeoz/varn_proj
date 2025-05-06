@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Akira';
+    src: url('./assets/Akira.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+:root {
+    background: #003049;
+}
+
+.global_center_div {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.global_font {
+    font-family: "JetBrains Mono", monospace;
+}
