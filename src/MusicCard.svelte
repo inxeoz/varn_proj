@@ -3,9 +3,9 @@
     import pause from './assets/pause.svg'
 </script>
 
-<div class="music_card_main">
-    <div class="music_card_player global_center_div">
+<div class="music_card_main global_center_div">
 
+    <div class="music_card_player global_center_div">
         <div class="music_poster">
             <img src={coffin_song} alt="coffin music">
         </div>
@@ -22,12 +22,23 @@
             </div>
         </div>
     </div>
-    <div class="music_info">
+
+    <div class="music_info global_font">
         Coffin prod.@Jaymonbeats
     </div>
 </div>
 
 <style>
+    .music_info {
+        color: #fff;
+        font-style: italic;
+        font-weight: bold;
+    }
+    .music_card_main{
+        flex-direction: column;
+        gap: 20px;
+        padding-bottom: 10px;
+    }
     .bar {
         height: 4px;
         width: 150px;
@@ -56,6 +67,11 @@
         background: #eb5e28;
         padding: 20px;
         flex-direction: column;
+
+
+        border-width: 2px;
+        border-color: rgb(255, 255, 255);
+        border-style: solid;
     }
 
     .music_player {
