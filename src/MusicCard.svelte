@@ -13,13 +13,72 @@
     }
 
     let sliderValue = 0.5;
+
     function handleSliderChange(val: number) {
         sliderValue = val;
         console.log('Slider value:', val);
     }
+
+    import AudioPlay from "./AudioPlay.svelte";
+
+    let playerRef: {
+        play: () => void;
+        pause: () => void;
+        stop: () => void;
+        toggleMute: () => void;
+        seek: (time: number) => void; // add this!
+
+    };
+
+
+    let audioSrc = '/test_music.mp3'; // replace with your actual audio file path
+
+    // Callback for play event
+    function handlePlay(info: { currentTime: number; duration: number; progress: number }) {
+        console.log('Audio started:', info);
+        // You can do anything here, e.g., update state, show a message, etc.
+    }
+
+    // Callback for pause event
+    function handlePause(info: { currentTime: number; duration: number; progress: number }) {
+        console.log('Audio paused:', info);
+        // You can do anything here, e.g., update state, show a message, etc.
+    }
+
+    let progress = 0;
+    let currentTime = 0;
+    let duration = 0;
+
+    function handleProgress(info: { currentTime: number; duration: number; progress: number }) {
+        progress = info.progress;
+        currentTime = info.currentTime;
+        duration = info.duration;
+        console.log("--> ", currentTime)
+    }
+
+    function jumpTo30() {
+        playerRef.seek(30);
+    }
+
 </script>
 
+<AudioPlay
+        bind:this={playerRef}
+        src={audioSrc}
+        onPlay={handlePlay}
+        onPause={handlePause}
+        onProgress={handleProgress}
+/>
+
 <div class="music_card_main global_center_div">
+
+    <div class="controls">
+        <button on:click={() => playerRef.play()}>Play</button>
+        <button on:click={() => playerRef.pause()}>Pause</button>
+        <button on:click={() => playerRef.stop()}>Stop</button>
+        <button on:click={() => playerRef.toggleMute()}>Toggle Mute</button>
+        <button on:click={jumpTo30}>Jump to 30s</button>
+    </div>
 
     <div class="music_card_player global_center_div">
         <div class="music_poster">
@@ -50,17 +109,6 @@
 
             {/if}
 
-
-<!--        <div class="bar global_center_div">-->
-<!--            <div class="played_bar" style="&#45;&#45;played_bar_width: {played_bar_width}px">-->
-<!--            </div>-->
-<!--            <div class="bar_point global_center_div">-->
-<!--                <img src={circle} alt="slider handle">-->
-<!--            </div>-->
-<!--            <div class="remain_bar">-->
-<!--            </div>-->
-<!--        </div>-->
-
             <Slider
                     value={sliderValue}
                     onChange={handleSliderChange}
@@ -71,12 +119,12 @@
                     rightColor="#ffffff"
                     knobColor="#ffffff"
             />
+        </div>
     </div>
-</div>
 
-<div class="music_info global_font">
-    Coffin prod.@Jaymonbeats
-</div>
+    <div class="music_info global_font">
+        Coffin prod.@Jaymonbeats
+    </div>
 </div>
 
 <style>
