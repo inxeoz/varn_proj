@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { StartChnageMusicTimingFromSlider } from "./lib/store";
+
     export let value: number = 0.5; // 0 to 1
     export let width: number = 400;
     export let knobSize: number = 40;
@@ -6,8 +8,7 @@
     export let leftColor: string = '#77dd77';
     export let rightColor: string = '#ff6961';
     export let knobColor: string = '#4f8cff';
-    export let onChange: (value: number) => void = () => {
-    };
+    export let onChange: (value: number) => void = () => {};
 
     const minX = 0;
     let maxX = width - knobSize;
@@ -45,6 +46,9 @@
             window.removeEventListener('mouseup', stopDrag);
             window.removeEventListener('touchmove', onTouchMove);
             window.removeEventListener('touchend', stopDrag);
+
+            // Set the store to false when drag ends
+            StartChnageMusicTimingFromSlider.set(false);
         }
 
         window.addEventListener('mousemove', onMouseMove);
@@ -54,10 +58,12 @@
     }
 
     function handleMouseDown(event: MouseEvent) {
+        StartChnageMusicTimingFromSlider.set(true);
         startDrag(event.clientX);
     }
 
     function handleTouchStart(event: TouchEvent) {
+        StartChnageMusicTimingFromSlider.set(true);
         startDrag(event.touches[0].clientX);
     }
 

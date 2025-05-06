@@ -1,10 +1,12 @@
 <script lang="ts">
     export let src: string;
-
+    export let title: string | undefined; // optional, fallback to filename if not provided
     // Optional callback props for parent
     export let onPlay: ((info: { currentTime: number; duration: number; progress: number }) => void ) | undefined;
     export let onPause: ((info: { currentTime: number; duration: number; progress: number }) => void ) | undefined;
     export let onProgress: ((info: { currentTime: number; duration: number; progress: number }) => void) | undefined;
+    // Callback prop for sending audio info to parent
+    export let onInfo: ((info: { title: string; duration: number }) => void) | undefined;
 
     let audio: HTMLAudioElement;
     export let isPlaying = false;
@@ -55,6 +57,20 @@
             audio.currentTime = time;
         }
     }
+
+    function handleLoadedMetadata() {
+        duration = audio.duration;
+        let resolvedTitle = title;
+        if (!resolvedTitle) {
+            // Extract filename from src if no title provided
+            try {
+                resolvedTitle = decodeURIComponent(src.split('/').pop() || 'Unknown');
+            } catch {
+                resolvedTitle = src;
+            }
+        }
+        onInfo?.({ title: resolvedTitle, duration });
+    }
 </script>
 
 <audio
@@ -65,4 +81,5 @@
         on:play={handlePlay}
         on:pause={handlePause}
         on:timeupdate={handleTimeUpdate}
+        on:loadedmetadata={handleLoadedMetadata}
 />

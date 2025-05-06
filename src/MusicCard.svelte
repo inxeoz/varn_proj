@@ -2,21 +2,21 @@
     import coffin_song from './assets/coffin_song.svg'
     import pause from './assets/pause.svg'
     import play from './assets/play.svg'
-    import circle from './assets/circle.svg'
     import Slider from "./Slider.svelte";
-
+    import {StartChnageMusicTimingFromSlider} from "./lib/store";
     let continue_music = false;
-    let played_bar_width = 100;
 
-    function playMusic() {
-        continue_music = true
-    }
+    let sliderValue = 0;
 
-    let sliderValue = 0.5;
 
     function handleSliderChange(val: number) {
-        sliderValue = val;
-        console.log('Slider value:', val);
+
+        if ($StartChnageMusicTimingFromSlider) {
+            playerRef.seek(val * audioDuration);
+            console.log("setting music --> ", val * audioDuration)
+        } else {
+            sliderValue = val
+        }
     }
 
     import AudioPlay from "./AudioPlay.svelte";
@@ -29,7 +29,8 @@
         seek: (time: number) => void; // add this!
 
     };
-
+    let audioTitle = '';
+    let audioDuration = 0;
 
     let audioSrc = '/test_music.mp3'; // replace with your actual audio file path
 
@@ -47,27 +48,41 @@
 
     let progress = 0;
     let currentTime = 0;
-    let duration = 0;
+
+    // let duration = 0;
 
     function handleProgress(info: { currentTime: number; duration: number; progress: number }) {
         progress = info.progress;
         currentTime = info.currentTime;
-        duration = info.duration;
-        console.log("--> ", currentTime)
+        //duration = info.duration;
+        console.log("--> ", currentTime, '--Pr ', progress, 'duration--', audioDuration)
+
+        handleSliderChange(currentTime / audioDuration);
+
     }
 
     function jumpTo30() {
         playerRef.seek(30);
     }
 
+    function handleAudioInfo(info: { title: string; duration: number }) {
+        audioTitle = info.title;
+        audioDuration = info.duration;
+        console.log('info --> ', audioTitle, audioDuration)
+    }
+
+
 </script>
 
 <AudioPlay
         bind:this={playerRef}
         src={audioSrc}
+        title={audioTitle}
         onPlay={handlePlay}
         onPause={handlePause}
         onProgress={handleProgress}
+        onInfo={handleAudioInfo}
+
 />
 
 <div class="music_card_main global_center_div">
@@ -93,6 +108,7 @@
                 <div
                         class="play_pause global_center_div" on:click={() => {
                     continue_music = false
+                    playerRef.pause();
                 }}>
                     <img src={pause} alt="pause music">
                 </div>
@@ -102,7 +118,9 @@
 
                 <div
                         class="play_pause global_center_div" on:click={()=> {
+
                    continue_music = true
+                   playerRef.play();
                 }}>
                     <img src={play} alt="play music">
                 </div>
