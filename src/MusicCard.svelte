@@ -3,12 +3,19 @@
     import pause from './assets/pause.svg'
     import play from './assets/play.svg'
     import circle from './assets/circle.svg'
+    import Slider from "./Slider.svelte";
 
     let continue_music = false;
     let played_bar_width = 100;
 
     function playMusic() {
         continue_music = true
+    }
+
+    let sliderValue = 0.5;
+    function handleSliderChange(val: number) {
+        sliderValue = val;
+        console.log('Slider value:', val);
     }
 </script>
 
@@ -44,15 +51,26 @@
             {/if}
 
 
-        <div class="bar global_center_div">
-            <div class="played_bar" style="--played_bar_width: {played_bar_width}px">
-            </div>
-            <div class="bar_point global_center_div">
-                <img src={circle} alt="slider handle">
-            </div>
-            <div class="remain_bar">
-            </div>
-        </div>
+<!--        <div class="bar global_center_div">-->
+<!--            <div class="played_bar" style="&#45;&#45;played_bar_width: {played_bar_width}px">-->
+<!--            </div>-->
+<!--            <div class="bar_point global_center_div">-->
+<!--                <img src={circle} alt="slider handle">-->
+<!--            </div>-->
+<!--            <div class="remain_bar">-->
+<!--            </div>-->
+<!--        </div>-->
+
+            <Slider
+                    value={sliderValue}
+                    onChange={handleSliderChange}
+                    width={150}
+                    knobSize={16}
+                    barHeight={5}
+                    leftColor="#eb5e28"
+                    rightColor="#ffffff"
+                    knobColor="#ffffff"
+            />
     </div>
 </div>
 

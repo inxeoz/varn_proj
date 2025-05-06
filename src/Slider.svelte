@@ -6,7 +6,8 @@
     export let leftColor: string = '#77dd77';
     export let rightColor: string = '#ff6961';
     export let knobColor: string = '#4f8cff';
-    export let onChange: (value: number) => void = () => {};
+    export let onChange: (value: number) => void = () => {
+    };
 
     const minX = 0;
     let maxX = width - knobSize;
@@ -23,24 +24,29 @@
 
     function startDrag(clientX: number) {
         const offsetX: number = clientX - x;
+
         function move(clientX: number) {
             let newX = clientX - offsetX;
             newX = Math.max(minX, Math.min(maxX, newX));
             x = newX;
             setValueFromX(newX);
         }
+
         function onMouseMove(e: MouseEvent) {
             move(e.clientX);
         }
+
         function onTouchMove(e: TouchEvent) {
             move(e.touches[0].clientX);
         }
+
         function stopDrag() {
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', stopDrag);
             window.removeEventListener('touchmove', onTouchMove);
             window.removeEventListener('touchend', stopDrag);
         }
+
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', stopDrag);
         window.addEventListener('touchmove', onTouchMove);
@@ -50,6 +56,7 @@
     function handleMouseDown(event: MouseEvent) {
         startDrag(event.clientX);
     }
+
     function handleTouchStart(event: TouchEvent) {
         startDrag(event.touches[0].clientX);
     }
@@ -63,8 +70,8 @@
         position: relative;
         user-select: none;
         touch-action: none;
-        background: white;
     }
+
     .bar {
         position: absolute;
         top: 50%;
@@ -73,18 +80,21 @@
         z-index: 1;
         height: 8px;
     }
+
     .bar.left {
         left: 0;
         background: #77dd77;
     }
+
     .bar.right {
         background: #ff6961;
     }
+
     .knob {
         position: absolute;
         top: 50%;
         border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -96,9 +106,10 @@
         transition: box-shadow 0.2s;
         touch-action: none;
     }
+
     .knob:active {
         cursor: grabbing;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
     }
 </style>
 
