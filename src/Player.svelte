@@ -1,39 +1,25 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from 'svelte';
-
-    // Props
-    export let value: number = 0; // Initial value (0 to 1)
+    export let value: number = 0.5; // 0 to 1
     export let width: number = 400;
     export let knobSize: number = 40;
     export let barHeight: number = 8;
     export let leftColor: string = '#77dd77';
     export let rightColor: string = '#ff6961';
     export let knobColor: string = '#4f8cff';
+    export let onChange: (value: number) => void = () => {};
 
     const minX = 0;
-    let maxX: number;
-    let x: number;
+    let maxX = width - knobSize;
+    let x: number = minX + value * (width - knobSize);
 
-    const dispatch = createEventDispatcher();
-
-    // Sync x with value prop
-    function setXFromValue(val: number) {
-        x = minX + val * (width - knobSize);
-    }
+    // Keep x in sync if value or width/knobSize changes
+    $: maxX = width - knobSize;
+    $: x = minX + value * (width - knobSize);
 
     function setValueFromX(newX: number) {
         value = (newX - minX) / (width - knobSize);
-        dispatch('change', value);
+        onChange(value);
     }
-
-    // Initialize
-    onMount(() => {
-        maxX = width - knobSize;
-        setXFromValue(value);
-    });
-
-    // Update x if value prop changes
-    $: setXFromValue(value);
 
     function startDrag(clientX: number) {
         const offsetX: number = clientX - x;
@@ -85,7 +71,14 @@
         transform: translateY(-50%);
         border-radius: 4px;
         z-index: 1;
-        height: var(--bar-height);
+        height: 8px;
+    }
+    .bar.left {
+        left: 0;
+        background: #77dd77;
+    }
+    .bar.right {
+        background: #ff6961;
     }
     .knob {
         position: absolute;
