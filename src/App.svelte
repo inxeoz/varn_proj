@@ -11,7 +11,6 @@
   <Navigation/>
   <MusicCard/>
   <Separator/>
-  <Slider/>
 </div>
 
 <style>

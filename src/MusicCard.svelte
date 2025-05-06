@@ -7,7 +7,7 @@
     let continue_music = false;
 
     let sliderValue = 0;
-
+    let audioDuration = 0;
 
     function handleSliderChange(val: number) {
 
@@ -30,7 +30,7 @@
 
     };
     let audioTitle = '';
-    let audioDuration = 0;
+
 
     let audioSrc = '/test_music.mp3'; // replace with your actual audio file path
 
@@ -54,7 +54,7 @@
     function handleProgress(info: { currentTime: number; duration: number; progress: number }) {
         progress = info.progress;
         currentTime = info.currentTime;
-        //duration = info.duration;
+        audioDuration = info.duration;
         console.log("--> ", currentTime, '--Pr ', progress, 'duration--', audioDuration)
 
         handleSliderChange(currentTime / audioDuration);
@@ -87,13 +87,13 @@
 
 <div class="music_card_main global_center_div">
 
-    <div class="controls">
-        <button on:click={() => playerRef.play()}>Play</button>
-        <button on:click={() => playerRef.pause()}>Pause</button>
-        <button on:click={() => playerRef.stop()}>Stop</button>
-        <button on:click={() => playerRef.toggleMute()}>Toggle Mute</button>
-        <button on:click={jumpTo30}>Jump to 30s</button>
-    </div>
+<!--    <div class="controls">-->
+<!--        <button on:click={() => playerRef.play()}>Play</button>-->
+<!--        <button on:click={() => playerRef.pause()}>Pause</button>-->
+<!--        <button on:click={() => playerRef.stop()}>Stop</button>-->
+<!--        <button on:click={() => playerRef.toggleMute()}>Toggle Mute</button>-->
+<!--        <button on:click={jumpTo30}>Jump to 30s</button>-->
+<!--    </div>-->
 
     <div class="music_card_player global_center_div">
         <div class="music_poster">
