@@ -1,10 +1,12 @@
 <script lang="ts">
-    import coffin_song from './assets/coffin_song.svg'
+
     import pause from './assets/pause.svg'
     import play from './assets/play.svg'
     import Slider from "./Slider.svelte";
     import {StartChnageMusicTimingFromSlider} from "./lib/store";
     let continue_music = false;
+    export let poster_background_color = '#eb5e28'
+    export let poster_svg ;
 
     let sliderValue = 0;
     let audioDuration = 0;
@@ -85,7 +87,7 @@
 
 />
 
-<div class="music_card_main global_center_div">
+<div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
 
 <!--    <div class="controls">-->
 <!--        <button on:click={() => playerRef.play()}>Play</button>-->
@@ -97,7 +99,7 @@
 
     <div class="music_card_player global_center_div">
         <div class="music_poster">
-            <img src={coffin_song} alt="coffin music">
+            <img src={poster_svg} alt="coffin music">
         </div>
 
         <div class="music_player global_center_div">
@@ -133,7 +135,7 @@
                     width={150}
                     knobSize={16}
                     barHeight={5}
-                    leftColor="#eb5e28"
+                    leftColor={poster_background_color}
                     rightColor="#ffffff"
                     knobColor="#ffffff"
             />
@@ -164,32 +166,9 @@
         padding-bottom: 10px;
     }
 
-    .bar {
-        height: 4px;
-        width: 150px;
-    }
-
-
-    .played_bar {
-        height: 4px;
-        width: var(--played_bar_width);
-        background: #e28c45;
-        border-bottom-left-radius: 50px;
-        border-top-left-radius: 50px;
-
-    }
-
-    .remain_bar {
-        height: 4px;
-        width: 100%;
-        background: #685757;
-        border-bottom-right-radius: 50px;
-        border-top-left-radius: 50px;
-    }
-
 
     .music_card_player {
-        background: #eb5e28;
+        background: var(--poster-background-color);
         padding: 20px;
         flex-direction: column;
 

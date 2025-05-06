@@ -1,16 +1,16 @@
 <script lang="ts">
   import TitleName from "./TitleName.svelte";
   import Navigation from "./Navigation.svelte";
-  import MusicCard from "./MusicCard.svelte";
   import Separator from "./Separator.svelte";
-  import Slider from "./Slider.svelte";
+  import SongPage from "./SongPage.svelte";
+
 </script>
 
 <div class="main global_center_div">
   <TitleName/>
   <Navigation/>
-  <MusicCard/>
-  <Separator/>
+<SongPage/>
+
 </div>
 
 <style>

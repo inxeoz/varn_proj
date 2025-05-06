@@ -9,6 +9,7 @@
     export let rightColor: string = '#ff6961';
     export let knobColor: string = '#4f8cff';
     export let onChange: (value: number) => void = () => {};
+    let dragging = false;
 
     const minX = 0;
     let maxX = width - knobSize;
@@ -24,6 +25,7 @@
     }
 
     function startDrag(clientX: number) {
+        dragging = true;
         const offsetX: number = clientX - x;
 
         function move(clientX: number) {
@@ -42,6 +44,7 @@
         }
 
         function stopDrag() {
+            dragging = false;
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', stopDrag);
             window.removeEventListener('touchmove', onTouchMove);
@@ -78,24 +81,6 @@
         touch-action: none;
     }
 
-    .bar {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        border-radius: 4px;
-        z-index: 1;
-        height: 8px;
-    }
-
-    .bar.left {
-        left: 0;
-        background: #77dd77;
-    }
-
-    .bar.right {
-        background: #ff6961;
-    }
-
     .knob {
         position: absolute;
         top: 50%;
@@ -117,6 +102,44 @@
         cursor: grabbing;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
     }
+
+
+    .knob {
+        position: absolute;
+        top: 50%;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        cursor: grab;
+        z-index: 2;
+        transform: translateY(-50%);
+        transition:
+                left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s;
+        touch-action: none;
+    }
+    .knob.dragging {
+        transition: none;
+    }
+    .knob:active {
+        cursor: grabbing;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    }
+
+    .bar {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 4px;
+        z-index: 1;
+        height: 8px;
+        transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
 </style>
 
 <div
@@ -144,12 +167,15 @@
             on:touchstart={handleTouchStart}
     ></div>
     <div
-            class="bar right"
+            class="knob {dragging ? 'dragging' : ''}"
             style="
-      width: {rightWidth}px;
-      left: {leftWidth}px;
-      background: {rightColor};
-      height: {barHeight}px;
+        left: {x}px;
+        width: {knobSize}px;
+        height: {knobSize}px;
+        background: {knobColor};
     "
-    ></div>
+            on:mousedown={handleMouseDown}
+            on:touchstart={handleTouchStart}
+    />
+
 </div>
