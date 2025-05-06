@@ -70,6 +70,10 @@
         color: white;
         transform: translateY(12px); /* subtle slide up */
         pointer-events: none;
+        font-style: italic;
+        font-weight: 900;
+        font-size: 18px;
+        border-radius: 50%;
     }
 
     .active_title {
