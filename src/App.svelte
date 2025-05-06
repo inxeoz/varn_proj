@@ -3,6 +3,7 @@
   import Navigation from "./Navigation.svelte";
   import MusicCard from "./MusicCard.svelte";
   import Separator from "./Separator.svelte";
+  import Player from "./Player.svelte";
 </script>
 
 <div class="main global_center_div">
@@ -10,6 +11,7 @@
   <Navigation/>
   <MusicCard/>
   <Separator/>
+  <Player/>
 </div>
 
 <style>
