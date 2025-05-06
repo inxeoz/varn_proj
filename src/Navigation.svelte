@@ -46,13 +46,40 @@
 </div>
 
 <style>
+
+    .tab, .active_tab {
+        transition:
+                background 0.4s cubic-bezier(.4,0,.2,1),
+                color 0.4s ease,
+                border 0.4s cubic-bezier(.4,0,.2,1);
+    }
+
+    .title, .active_title {
+        transition:
+                color 0.4s ease,
+                opacity 0.4s cubic-bezier(.4,0,.2,1),
+                max-width 0.4s cubic-bezier(.4,0,.2,1),
+                transform 0.4s cubic-bezier(.4,0,.2,1);
+    }
+
     .title {
-        display: none;
-    }
-    .active_title {
-        display: block;
+        opacity: 0;
+        max-width: 0;
+        overflow: hidden;
+        display: inline-block;
         color: white;
+        transform: translateY(12px); /* subtle slide up */
+        pointer-events: none;
     }
+
+    .active_title {
+        opacity: 1;
+        max-width: 200px;
+        color: white;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
     .active_tab {
         color: white;
         padding: 0.8rem;
@@ -64,6 +91,7 @@
         width: auto;
         gap: 0.8rem;
     }
+
     .tab {
         color: white;
         padding: 0.8rem;
@@ -73,6 +101,7 @@
         height: auto;
         border: 2px solid white;
     }
+
     .navigation_main {
         width: 100%;
         height: 100%;
@@ -80,4 +109,5 @@
         flex-direction: row;
         gap: 2rem;
     }
+
 </style>
