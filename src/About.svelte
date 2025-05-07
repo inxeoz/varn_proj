@@ -11,7 +11,7 @@
 
         <div class="basic_details global_center_div">
             <div class="year">
-                21y
+                23y
             </div>
 
             <div class="name">
