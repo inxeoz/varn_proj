@@ -100,7 +100,7 @@
 
     <div class="music_card_player global_center_div">
         <div class="music_poster">
-            <img src={poster_svg} alt="coffin music">
+            <img src={poster_svg} alt="coffin music" >
         </div>
 
         <div class="music_player global_center_div">
