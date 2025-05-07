@@ -31,7 +31,7 @@
             <br> <br>
             Taught himself everything from scratch. Quiet hustle, real progress.
             <br> <br>
-            Now 10 songs deep, and he’s only getting started.
+            Now more than 10 songs deep, and he’s only getting started.
         </div>
     </div>
 </div>
@@ -58,7 +58,7 @@
     }
 
     .dp_varn {
-        border: 2px solid #95c5de;
+        border: 3px solid #95c5de;
     }
 
     .motto {
