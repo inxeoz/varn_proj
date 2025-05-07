@@ -1,5 +1,5 @@
-<div class="info_tag">
-    <div class="artist_name">
+<div class="info_tag global_center_div">
+    <div class="artist_name global_center_div">
         VARN
     </div>
     <div class="artist_line">
