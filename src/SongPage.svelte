@@ -8,7 +8,7 @@ import desparation_song from './assets/desparation_song.svg'
 </script>
 
 <div class="song_page_main global_center_div">
-    <MusicCard poster_svg={coffin_song} />
+    <MusicCard poster_svg={coffin_song} song_title="Coffin prod.@Jaymonbeats"/>
     <Separator/>
     <MusicCard poster_svg={lost_song} poster_background_color="#fb6376" />
     <Separator/>

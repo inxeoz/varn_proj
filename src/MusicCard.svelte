@@ -4,9 +4,11 @@
     import play from './assets/play.svg'
     import Slider from "./Slider.svelte";
     import {StartChnageMusicTimingFromSlider} from "./lib/store";
+
     let continue_music = false;
     export let poster_background_color = '#eb5e28'
-    export let poster_svg ;
+    export let song_title = "(0_1)";
+    export let poster_svg;
 
     let sliderValue = 0;
     let audioDuration = 0;
@@ -34,7 +36,7 @@
     let audioTitle = '';
 
 
-  //  let audioSrc = '/test_music.mp3'; // replace with your actual audio file path
+    //  let audioSrc = '/test_music.mp3'; // replace with your actual audio file path
 
     let audioSrc = "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3"
 
@@ -91,13 +93,13 @@
 
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
 
-<!--    <div class="controls">-->
-<!--        <button on:click={() => playerRef.play()}>Play</button>-->
-<!--        <button on:click={() => playerRef.pause()}>Pause</button>-->
-<!--        <button on:click={() => playerRef.stop()}>Stop</button>-->
-<!--        <button on:click={() => playerRef.toggleMute()}>Toggle Mute</button>-->
-<!--        <button on:click={jumpTo30}>Jump to 30s</button>-->
-<!--    </div>-->
+    <!--    <div class="controls">-->
+    <!--        <button on:click={() => playerRef.play()}>Play</button>-->
+    <!--        <button on:click={() => playerRef.pause()}>Pause</button>-->
+    <!--        <button on:click={() => playerRef.stop()}>Stop</button>-->
+    <!--        <button on:click={() => playerRef.toggleMute()}>Toggle Mute</button>-->
+    <!--        <button on:click={jumpTo30}>Jump to 30s</button>-->
+    <!--    </div>-->
 
     <div class="music_card_player global_center_div">
         <div class="music_poster">
@@ -145,7 +147,11 @@
     </div>
 
     <div class="music_info global_font">
-        Coffin prod.@Jaymonbeats
+
+        {
+            song_title
+        }
+
     </div>
 </div>
 
