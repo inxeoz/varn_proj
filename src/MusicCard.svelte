@@ -35,10 +35,7 @@
     };
     let audioTitle = '';
 
-
-    //  let audioSrc = '/test_music.mp3'; // replace with your actual audio file path
-
-    let audioSrc = "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3"
+    export let audioSrc = "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3"
 
     // Callback for play event
     function handlePlay(info: { currentTime: number; duration: number; progress: number }) {
@@ -160,6 +157,7 @@
     .play_pause {
         max-height: 20px;
         max-width: 20px;
+        cursor: pointer;
     }
 
     .music_info {
