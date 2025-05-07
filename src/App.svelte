@@ -4,6 +4,7 @@
   import SongPage from "./SongPage.svelte";
   import {CurrentTab} from "./lib/store";
   import Footer from "./Footer.svelte";
+  import About from "./About.svelte";
 
 </script>
 
@@ -15,7 +16,7 @@
     <SongPage/>
 
     {:else if $CurrentTab === "About"}
-
+    <About/>
     {:else if $CurrentTab === "Links" }
     {:else}
     {/if}
