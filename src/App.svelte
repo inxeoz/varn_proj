@@ -1,16 +1,23 @@
 <script lang="ts">
   import TitleName from "./TitleName.svelte";
   import Navigation from "./Navigation.svelte";
-  import Separator from "./Separator.svelte";
   import SongPage from "./SongPage.svelte";
+  import {CurrentTab} from "./lib/store";
 
 </script>
 
 <div class="main global_center_div">
   <TitleName/>
   <Navigation/>
-<SongPage/>
 
+  {#if $CurrentTab === "Songs" }
+    <SongPage/>
+
+    {:else if $CurrentTab === "About"}
+
+    {:else if $CurrentTab === "Links" }
+    {:else}
+    {/if}
 </div>
 
 <style>
