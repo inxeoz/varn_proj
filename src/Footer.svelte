@@ -11,15 +11,30 @@
         class="footer_main global_center_div">
 
     <div class="footer_links global_center_div global_font">
-        <div class="insta_link global_center_div">
+        <div class="insta_link global_center_div"
+
+             on:click={() => window.open('https://www.instagram.com/meinvarn/', '_blank', 'noopener,noreferrer')
+
+             }
+        >
             <img src={insta} alt="instagram id">
             @meinvarn
         </div>
-        <div class="yt_links global_center_div">
+        <div class="yt_links global_center_div"
+
+             on:click={() => window.open('https://www.youtube.com/@VARN.MUSIC777', '_blank', 'noopener,noreferrer')
+
+             }
+        >
             <img src={youtube} alt="youtube channel">
             @VARN.MUSIC777
         </div>
-        <div class="mail_addr global_center_div">
+        <div class="mail_addr global_center_div"
+
+             on:click={() => window.open('https://www.youtube.com/@VARN.MUSIC777', '_blank', 'noopener,noreferrer')
+
+             }
+        >
             <img src={mail} alt="email addr">
             Not provided
         </div>
@@ -34,6 +49,7 @@
 
     .yt_links, .mail_addr, .insta_link {
         gap : 1rem;
+        cursor: pointer;
     }
 
     .footer_main {
