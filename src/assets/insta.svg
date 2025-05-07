@@ -1,0 +1,43 @@
+<svg height="25px"
+     width="25px"
+     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+    <g fill="#000" class="prefix__feather prefix__feather-instagram">
+        <rect width="20" height="20" fill="none" class="prefix__fills" rx="0" ry="0"/>
+        <g stroke-linejoin="round" class="prefix__strokes">
+            <g class="prefix__inner-stroke-shape">
+                <defs>
+                    <clipPath id="b">
+                        <use href="#a"/>
+                    </clipPath>
+                    <rect id="a" width="20" height="20" x="0" y="0" fill="none" stroke="#95c5de" stroke-opacity="1"
+                          stroke-width="4" rx="0" ry="0"/>
+                </defs>
+                <use clip-path="url(#b)" href="#a"/>
+            </g>
+        </g>
+        <path fill="none" d="M14 9.37a4.001 4.001 0 1 1-7.916 1.173A4.001 4.001 0 0 1 14 9.37" class="prefix__fills"/>
+        <g stroke-linejoin="round" class="prefix__strokes">
+            <g class="prefix__inner-stroke-shape">
+                <defs>
+                    <clipPath id="d">
+                        <use href="#c"/>
+                    </clipPath>
+                    <path id="c" fill="none" stroke="#95c5de" stroke-opacity="1" stroke-width="4"
+                          d="M14 9.37a4.001 4.001 0 1 1-7.916 1.173A4.001 4.001 0 0 1 14 9.37Z"/>
+                </defs>
+                <use clip-path="url(#d)" href="#c"/>
+            </g>
+        </g>
+        <g stroke-linejoin="round" class="prefix__strokes">
+            <g class="prefix__inner-stroke-shape">
+                <defs>
+                    <clipPath id="f">
+                        <use href="#e"/>
+                    </clipPath>
+                    <path id="e" fill="none" stroke="#95c5de" stroke-opacity="1" stroke-width="4" d="M15.5 4.5Z"/>
+                </defs>
+                <use clip-path="url(#f)" href="#e"/>
+            </g>
+        </g>
+    </g>
+</svg>

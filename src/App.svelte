@@ -3,6 +3,7 @@
   import Navigation from "./Navigation.svelte";
   import SongPage from "./SongPage.svelte";
   import {CurrentTab} from "./lib/store";
+  import Footer from "./Footer.svelte";
 
 </script>
 
@@ -18,6 +19,8 @@
     {:else if $CurrentTab === "Links" }
     {:else}
     {/if}
+
+  <Footer/>
 </div>
 
 <style>
@@ -26,9 +29,9 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    padding-top: 3.5rem;
     flex-direction: column;
     gap: 4rem;
+    padding: 3.5rem 1.5rem 1.5rem;
 
   }
 </style>
