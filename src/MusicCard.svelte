@@ -8,27 +8,30 @@
 
     export let poster_background_color = '#eb5e28';
     export let song_title = "(0_1)";
-    export let poster_svg: string;
+    export let poster_svg: string = "";
     export let music_id = 0;
-    export let audioSrc = "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3";
+    export let audioSrc: string = "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3";
 
     let sliderValue = 0;
     let audioDuration = 0;
     let local_music_state = MusicState.Paused;
     let currentTime = 0;
+    let instance: HTMLAudioElement;
 
-    function handlePlay() {
+    function handleCallbackPlay() {
         if ($activeMusicId !== music_id) return;
         local_music_state = MusicState.Playing;
     }
-    function handlePause() {
+
+    function handleCallbackPause() {
         if ($activeMusicId !== music_id) return;
         local_music_state = MusicState.Paused;
     }
-    function handleTimeUpdate() {
+
+    function handleCallbackTimeUpdate() {
         if ($activeMusicId !== music_id) return;
-        currentTime = $audioInstance.currentTime;
-        audioDuration = $audioInstance.duration || 0;
+        currentTime = instance?.currentTime || 0;
+        audioDuration = instance?.duration || 0;
         sliderValue = currentTime / (audioDuration || 1);
     }
 
@@ -41,24 +44,22 @@
         }
     }
 
-    function ToggleMusicState() {
-        // 2. Only change activeMusicId and setSrcMusic if switching tracks
+    function prepareNewTrack() {
         if ($activeMusicId !== music_id) {
             stopMusic();
             activeMusicId.set(music_id);
-
-            console.log("slider value ", sliderValue, " duration ", audioDuration )
-            setSrcMusic(audioSrc, sliderValue * audioDuration); // <-- Now handled by the reactive statement above!
-            // return; // Don't return! Let playMusic() run after switching.
+            setSrcMusic(audioSrc, sliderValue * audioDuration);
         }
+    }
 
-        if (local_music_state === MusicState.Playing) {
-            local_music_state = MusicState.Paused;
-            pauseMusic();
-        } else {
-            local_music_state = MusicState.Playing;
-            playMusic();
-        }
+    function localPlayMusic() {
+        prepareNewTrack();
+        playMusic();
+    }
+
+    function localPauseMusic() {
+        prepareNewTrack();
+        pauseMusic();
     }
 
     // Listen for global music state changes
@@ -70,59 +71,39 @@
     });
 
     onMount(() => {
-        $audioInstance.addEventListener('play', handlePlay);
-        $audioInstance.addEventListener('pause', handlePause);
-        $audioInstance.addEventListener('timeupdate', handleTimeUpdate);
+        const audioUnsub = audioInstance.subscribe(audio => {
+            instance = audio;
+
+            instance.addEventListener('play', handleCallbackPlay);
+            instance.addEventListener('pause', handleCallbackPause);
+            instance.addEventListener('timeupdate', handleCallbackTimeUpdate);
+        });
+
+        onDestroy(() => {
+            unsubscribe();
+            instance?.removeEventListener('play', handleCallbackPlay);
+            instance?.removeEventListener('pause', handleCallbackPause);
+            instance?.removeEventListener('timeupdate', handleCallbackTimeUpdate);
+            audioUnsub();
+        });
     });
-
-    onDestroy(() => {
-        unsubscribe();
-        $audioInstance.removeEventListener('play', handlePlay);
-        $audioInstance.removeEventListener('pause', handlePause);
-        $audioInstance.removeEventListener('timeupdate', handleTimeUpdate);
-    });
-
-
-    function localPlayMusic () {
-        if ($activeMusicId !== music_id) {
-            stopMusic();
-            activeMusicId.set(music_id);
-            //  console.log("slider value ", sliderValue, " duration ", audioDuration )
-            setSrcMusic(audioSrc, sliderValue * audioDuration); // <-- Now handled by the reactive statement above!
-        }
-        playMusic()
-    }
-
-    function localPauseMusic () {
-        if ($activeMusicId !== music_id) {
-            stopMusic();
-            activeMusicId.set(music_id);
-            //  console.log("slider value ", sliderValue, " duration ", audioDuration )
-            setSrcMusic(audioSrc, sliderValue * audioDuration); // <-- Now handled by the reactive statement above!
-        }
-        pauseMusic()
-    }
 </script>
 
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
     <div class="music_card_player global_center_div">
         <div class="music_poster">
-            <img src={poster_svg} alt="coffin music">
+            <img src={poster_svg} alt="poster image">
         </div>
         <div class="music_player global_center_div">
-
-
-            {#if local_music_state === MusicState.Playing  }
-                <div class="play_pause global_center_div" on:click={()=> localPauseMusic()}>
+            {#if local_music_state === MusicState.Playing}
+                <div class="play_pause global_center_div" on:click={localPauseMusic}>
                     <img src={playIcon} alt="pause music">
                 </div>
-
             {:else}
-                <div class="play_pause global_center_div" on:click={()=> localPlayMusic()}>
+                <div class="play_pause global_center_div" on:click={localPlayMusic}>
                     <img src={pauseIcon} alt="play music">
                 </div>
             {/if}
-
 
             <Slider
                     value={sliderValue}
@@ -139,10 +120,7 @@
     <div class="music_info global_font">{song_title}</div>
 </div>
 
-
-
 <style>
-
     .play_pause {
         max-height: 20px;
         max-width: 20px;
@@ -161,25 +139,18 @@
         padding-bottom: 10px;
     }
 
-
     .music_card_player {
         background: var(--poster-background-color);
         padding: 20px;
         flex-direction: column;
-
-
-        border-width: 2px;
-        border-color: rgb(255, 255, 255);
-        border-style: solid;
+        border: 2px solid #fff;
     }
 
     .music_player {
         height: 50px;
         width: 100%;
-        background: #000000;
+        background: #000;
         justify-content: space-evenly;
         gap: 2px;
-
     }
-
 </style>
