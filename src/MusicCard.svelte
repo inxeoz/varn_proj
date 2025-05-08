@@ -3,12 +3,14 @@
     import pause from './assets/pause.svg'
     import play from './assets/play.svg'
     import Slider from "./Slider.svelte";
-    import {StartChnageMusicTimingFromSlider} from "./lib/store";
+    import { CurrentMusicState, MusicState, StartChnageMusicTimingFromSlider, activeMusicId} from "./lib/store";
+    import AudioPlay from "./AudioPlay.svelte";
+    import {onDestroy} from "svelte";
 
-    let continue_music = false;
     export let poster_background_color = '#eb5e28'
     export let song_title = "(0_1)";
     export let poster_svg;
+    export let music_id = 0;
 
     let sliderValue = 0;
     let audioDuration = 0;
@@ -22,8 +24,6 @@
             sliderValue = val
         }
     }
-
-    import AudioPlay from "./AudioPlay.svelte";
 
     let playerRef: {
         play: () => void;
@@ -75,18 +75,56 @@
     }
 
 
+    let local_music_state = MusicState.Stopped
+
+    function ToggleMusicState() {
+
+        if ($activeMusicId !== music_id) {
+            activeMusicId.set(music_id)
+        }
+
+        if (local_music_state === MusicState.Playing) {
+            local_music_state = MusicState.Paused;
+            CurrentMusicState.set(MusicState.Paused)
+            playerRef.pause();
+
+        } else {
+            local_music_state = MusicState.Playing
+            CurrentMusicState.set(MusicState.Playing)
+            playerRef.play();
+        }
+
+    }
+
+
+    // Subscribe to the activeMusicId store
+    const unsubscribe = activeMusicId.subscribe(id => {
+        if (id !== music_id && local_music_state === MusicState.Playing) {
+            local_music_state = MusicState.Paused;
+            playerRef?.stop();
+        }
+    });
+
+    onDestroy(() => {
+        unsubscribe();
+    });
+
+
+
 </script>
 
-<AudioPlay
-        bind:this={playerRef}
-        src={audioSrc}
-        title={audioTitle}
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onProgress={handleProgress}
-        onInfo={handleAudioInfo}
 
-/>
+    <AudioPlay
+            bind:this={playerRef}
+            src={audioSrc}
+            title={audioTitle}
+            onPlay={handlePlay}
+            onPause={handlePause}
+            onProgress={handleProgress}
+            onInfo={handleAudioInfo}
+
+    />
+
 
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
 
@@ -100,35 +138,20 @@
 
     <div class="music_card_player global_center_div">
         <div class="music_poster">
-            <img src={poster_svg} alt="coffin music" >
+            <img src={poster_svg} alt="coffin music">
         </div>
 
         <div class="music_player global_center_div">
 
+            <div
+                    class="play_pause global_center_div" on:click={()=>ToggleMusicState()}>
 
-            {#if continue_music}
-
-                <div
-                        class="play_pause global_center_div" on:click={() => {
-                    continue_music = false
-                    playerRef.pause();
-                }}>
+                {#if local_music_state === MusicState.Playing && music_id === $activeMusicId}
                     <img src={pause} alt="pause music">
-                </div>
-
-
-            {:else }
-
-                <div
-                        class="play_pause global_center_div" on:click={()=> {
-
-                   continue_music = true
-                   playerRef.play();
-                }}>
+                {:else}
                     <img src={play} alt="play music">
-                </div>
-
-            {/if}
+                {/if}
+            </div>
 
             <Slider
                     value={sliderValue}

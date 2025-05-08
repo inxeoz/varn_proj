@@ -48,14 +48,13 @@
 </script>
 
 <div class="song_page_main global_center_div">
-
-
     {#each songs as song, index}
         <MusicCard poster_svg={song.poster_svg} poster_background_color={song.poster_background_color}
                    song_title={song.song_title}
-                   audioSrc={song.audioSrc}/>
+                   audioSrc={song.audioSrc}
+                   music_id={index}/>
         <Separator/>
-        {/each}
+    {/each}
 </div>
 
 <style>

@@ -14,6 +14,14 @@
     export let duration = 0;
     export let progress = 0;
 
+    //
+    // $: if (audio && src) {
+    //     audio.pause();
+    //     audio.currentTime = 0;
+    //     isPlaying = false;
+    // }
+
+
     export function play() {
         audio?.play();
     }
@@ -26,6 +34,7 @@
             audio.currentTime = 0;
         }
     }
+
     export function toggleMute() {
         if (audio) audio.muted = !audio.muted;
     }
