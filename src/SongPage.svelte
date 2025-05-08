@@ -50,35 +50,35 @@
     let songs = [
         {
             song_title: "Coffin prod.@Jaymonbeats",
-            audioSrc: "./Coffin VARN New rap song 2023 prod. @Jaymonbeats.mp3",
+            audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Coffin+VARN+New+rap+song+2023+prod.+%40Jaymonbeats.mp3",
             poster_svg: coffin_song,
             poster_background_color: "#eb5e28"
         },
 
         {
             song_title: "lost ",
-            audioSrc: "./Lost - VARN x DAN14 - Prod.by - elzio.mp3",
+            audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Lost+-+VARN+x+DAN14+-+Prod.by+-+elzio.mp3",
             poster_svg: lost_song,
             poster_background_color: "#fb6376"
         },
 
         {
             song_title: "Desperation - VARN - prod.@theskybeats",
-            audioSrc: "./Desperation - VARN - prod.@theskybeats - OFFICIAL MUSIC VIDEO.mp3",
+            audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Desperation+-+VARN+-+prod.%40theskybeats+-+OFFICIAL+MUSIC+VIDEO.mp3",
             poster_svg: desparation_song,
             poster_background_color: "#82c0cc"
         },
 
         {
             song_title: "King - VARN - MV - @prodbyaneeq",
-            audioSrc: "./King - VARN - MV - @prodbyaneeq.mp3",
+            audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/King+-+VARN+-+MV+-+%40prodbyaneeq.mp3",
             poster_svg: king_song,
             poster_background_color: "#1b9aaa"
         },
 
         {
             song_title: "IN Waqt - VARN - Prod. by - ‪@hiyori730‬",
-            audioSrc: "./Waqt - VARN - Prod. by - @hiyori730.mp3",
+            audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Waqt+-+VARN+-+Prod.+by+-+%40hiyori730.mp3",
             poster_svg: waqt_song,
             poster_background_color: "#22e45c"
         },
