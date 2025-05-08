@@ -175,7 +175,7 @@
         background: var(--poster-background-color);
         padding: 20px;
         flex-direction: column;
-        border: 2px solid #fff;
+        border: 4px solid #000000;
     }
 
     .music_player {
