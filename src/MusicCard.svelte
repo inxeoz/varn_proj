@@ -85,12 +85,10 @@
 
         if (local_music_state === MusicState.Playing) {
             local_music_state = MusicState.Paused;
-            CurrentMusicState.set(MusicState.Paused)
             playerRef.pause();
 
         } else {
             local_music_state = MusicState.Playing
-            CurrentMusicState.set(MusicState.Playing)
             playerRef.play();
         }
 
@@ -146,7 +144,7 @@
             <div
                     class="play_pause global_center_div" on:click={()=>ToggleMusicState()}>
 
-                {#if local_music_state === MusicState.Playing && music_id === $activeMusicId}
+                {#if local_music_state === MusicState.Playing }
                     <img src={pause} alt="pause music">
                 {:else}
                     <img src={play} alt="play music">
