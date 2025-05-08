@@ -1,156 +1,143 @@
 <script lang="ts">
 
-    import pause from './assets/pause.svg'
-    import play from './assets/play.svg'
+    import pauseIcon from './assets/pause.svg';
+    import playIcon from './assets/play.svg';
     import Slider from "./Slider.svelte";
-    import { CurrentMusicState, MusicState, StartChnageMusicTimingFromSlider, activeMusicId} from "./lib/store";
-    import AudioPlay from "./AudioPlay.svelte";
-    import {onDestroy} from "svelte";
+    import { CurrentMusicState, MusicState, StartChnageMusicTimingFromSlider, activeMusicId } from "./lib/store";
 
-    export let poster_background_color = '#eb5e28'
+    import { playMusic, setSrcMusic, seekMusic, stopMusic, pauseMusic, toggleMuteMusic, audioInstance } from './lib/audioStore';
+
+    import { onMount, onDestroy } from "svelte";
+    import {musicSrc} from "./lib/musicStore";
+
+    export let poster_background_color = '#eb5e28';
     export let song_title = "(0_1)";
-    export let poster_svg;
+    export let poster_svg: string;
     export let music_id = 0;
+    export let audioSrc = "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3";
 
     let sliderValue = 0;
     let audioDuration = 0;
+    let local_music_state = MusicState.Stopped;
+    let progress = 0;
+    let currentTime = 0;
+    let audioTitle = '';
 
-    function handleSliderChange(val: number) {
+    // Set the audio source when component mounts or audioSrc changes
+    //$: setSrcMusic(audioSrc);
 
-        if ($StartChnageMusicTimingFromSlider) {
-            playerRef.seek(val * audioDuration);
-            console.log("setting music --> ", val * audioDuration)
-        } else {
-            sliderValue = val
+    // Audio event handlers
+    function handlePlay() {
+
+        if ($activeMusicId !== music_id) {
+          return;
+        }
+        local_music_state = MusicState.Playing;
+    }
+    function handlePause() {
+        if ($activeMusicId !== music_id) {
+            return;
+        }
+
+        local_music_state = MusicState.Paused;
+    }
+    function handleTimeUpdate() {
+
+        if ($activeMusicId !== music_id) {
+            return;
+        }
+
+        currentTime = $audioInstance.currentTime;
+        audioDuration = $audioInstance.duration || 0;
+        progress = audioDuration ? (currentTime / audioDuration) * 100 : 0;
+        sliderValue = currentTime / (audioDuration || 1);
+    }
+    function handleLoadedMetadata() {
+
+        if ($activeMusicId !== music_id) {
+            return;
+        }
+
+        audioDuration = $audioInstance.duration;
+        try {
+            audioTitle = decodeURIComponent(audioSrc.split('/').pop() || 'Unknown');
+        } catch {
+            audioTitle = audioSrc;
         }
     }
 
-    let playerRef: {
-        play: () => void;
-        pause: () => void;
-        stop: () => void;
-        toggleMute: () => void;
-        seek: (time: number) => void; // add this!
+    function handleSliderChange(val: number) {
+        if ($activeMusicId !== music_id) {
+            return;
+        }
 
-    };
-    let audioTitle = '';
-
-    export let audioSrc = "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3"
-
-    // Callback for play event
-    function handlePlay(info: { currentTime: number; duration: number; progress: number }) {
-        console.log('Audio started:', info);
-        // You can do anything here, e.g., update state, show a message, etc.
-    }
-
-    // Callback for pause event
-    function handlePause(info: { currentTime: number; duration: number; progress: number }) {
-        console.log('Audio paused:', info);
-        // You can do anything here, e.g., update state, show a message, etc.
-    }
-
-    let progress = 0;
-    let currentTime = 0;
-
-    // let duration = 0;
-
-    function handleProgress(info: { currentTime: number; duration: number; progress: number }) {
-        progress = info.progress;
-        currentTime = info.currentTime;
-        audioDuration = info.duration;
-        console.log("--> ", currentTime, '--Pr ', progress, 'duration--', audioDuration)
-
-        handleSliderChange(currentTime / audioDuration);
-
+        if ($StartChnageMusicTimingFromSlider) {
+            seekMusic(val * audioDuration);
+        } else {
+            sliderValue = val;
+        }
     }
 
     function jumpTo30() {
-        playerRef.seek(30);
+        seekMusic(30);
     }
-
-    function handleAudioInfo(info: { title: string; duration: number }) {
-        audioTitle = info.title;
-        audioDuration = info.duration;
-        console.log('info --> ', audioTitle, audioDuration)
-    }
-
-
-    let local_music_state = MusicState.Stopped
 
     function ToggleMusicState() {
 
         if ($activeMusicId !== music_id) {
-            activeMusicId.set(music_id)
+            activeMusicId.set(music_id);
+            musicSrc.set(audioSrc);
         }
 
         if (local_music_state === MusicState.Playing) {
             local_music_state = MusicState.Paused;
-            playerRef.pause();
-
+            pauseMusic();
         } else {
-            local_music_state = MusicState.Playing
-            playerRef.play();
+            local_music_state = MusicState.Playing;
+            playMusic();
         }
-
     }
 
-
-    // Subscribe to the activeMusicId store
+    // Listen for global music state changes
     const unsubscribe = activeMusicId.subscribe(id => {
         if (id !== music_id && local_music_state === MusicState.Playing) {
             local_music_state = MusicState.Paused;
-            playerRef?.stop();
+            stop();
         }
+    });
+
+    onMount(() => {
+        // Attach event listeners
+        $audioInstance.addEventListener('play', handlePlay);
+        $audioInstance.addEventListener('pause', handlePause);
+        $audioInstance.addEventListener('timeupdate', handleTimeUpdate);
+        $audioInstance.addEventListener('loadedmetadata', handleLoadedMetadata);
     });
 
     onDestroy(() => {
         unsubscribe();
+        // Remove event listeners
+        $audioInstance.removeEventListener('play', handlePlay);
+        $audioInstance.removeEventListener('pause', handlePause);
+        $audioInstance.removeEventListener('timeupdate', handleTimeUpdate);
+        $audioInstance.removeEventListener('loadedmetadata', handleLoadedMetadata);
     });
-
-
 
 </script>
 
-
-    <AudioPlay
-            bind:this={playerRef}
-            src={audioSrc}
-            title={audioTitle}
-            onPlay={handlePlay}
-            onPause={handlePause}
-            onProgress={handleProgress}
-            onInfo={handleAudioInfo}
-
-    />
-
-
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
-
-    <!--    <div class="controls">-->
-    <!--        <button on:click={() => playerRef.play()}>Play</button>-->
-    <!--        <button on:click={() => playerRef.pause()}>Pause</button>-->
-    <!--        <button on:click={() => playerRef.stop()}>Stop</button>-->
-    <!--        <button on:click={() => playerRef.toggleMute()}>Toggle Mute</button>-->
-    <!--        <button on:click={jumpTo30}>Jump to 30s</button>-->
-    <!--    </div>-->
-
     <div class="music_card_player global_center_div">
         <div class="music_poster">
             <img src={poster_svg} alt="coffin music">
         </div>
-
         <div class="music_player global_center_div">
-
-            <div
-                    class="play_pause global_center_div" on:click={()=>ToggleMusicState()}>
-
+            <div class="play_pause global_center_div" on:click={ToggleMusicState}>
                 {#if local_music_state === MusicState.Playing }
-                    <img src={pause} alt="pause music">
+                    <img src={pauseIcon} alt="pause music">
                 {:else}
-                    <img src={play} alt="play music">
+                    <img src={playIcon} alt="play music">
                 {/if}
             </div>
-
             <Slider
                     value={sliderValue}
                     onChange={handleSliderChange}
@@ -163,15 +150,9 @@
             />
         </div>
     </div>
-
-    <div class="music_info global_font">
-
-        {
-            song_title
-        }
-
-    </div>
+    <div class="music_info global_font">{song_title}</div>
 </div>
+
 
 <style>
 

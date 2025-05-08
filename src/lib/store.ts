@@ -1,4 +1,4 @@
-// src/store.js (or adjust path accordingly)
+
 import { writable } from 'svelte/store';
 export enum MusicState {
     Playing,
