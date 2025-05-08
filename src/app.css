@@ -1,9 +1,17 @@
 @font-face {
     font-family: 'Akira';
-    src: url('./assets/Akira.otf');
+    src: url('./assets/fonts/Akira.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('assets/fonts/JetBrainsMono-Regular.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 
 :root {
