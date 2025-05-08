@@ -49,31 +49,35 @@
 
     let songs = [
         {
+            song_title: "Coffin prod.@Jaymonbeats",
             audioSrc: "./Coffin VARN New rap song 2023 prod. @Jaymonbeats.mp3",
             poster_svg: coffin_song,
             poster_background_color: "#eb5e28"
         },
 
         {
+            song_title: "lost ",
             audioSrc: "./Lost - VARN x DAN14 - Prod.by - elzio.mp3",
             poster_svg: lost_song,
             poster_background_color: "#fb6376"
         },
 
         {
+            song_title: "Desperation - VARN - prod.@theskybeats",
             audioSrc: "./Desperation - VARN - prod.@theskybeats - OFFICIAL MUSIC VIDEO.mp3",
             poster_svg: desparation_song,
             poster_background_color: "#82c0cc"
         },
 
         {
+            song_title: "King - VARN - MV - @prodbyaneeq",
             audioSrc: "./King - VARN - MV - @prodbyaneeq.mp3",
             poster_svg: king_song,
             poster_background_color: "#1b9aaa"
         },
 
         {
-
+            song_title: "IN Waqt - VARN - Prod. by - ‪@hiyori730‬",
             audioSrc: "./Waqt - VARN - Prod. by - @hiyori730.mp3",
             poster_svg: waqt_song,
             poster_background_color: "#22e45c"
@@ -85,7 +89,7 @@
 <div class="song_page_main global_center_div">
     {#each songs as song, index}
         <MusicCard poster_svg={song.poster_svg} poster_background_color={song.poster_background_color}
-                   song_title={song.audioSrc.slice(2, song.audioSrc.length - 4)}
+                   song_title={song.song_title}
                    audioSrc={song.audioSrc}
                    music_id={index}/>
         <Separator/>
