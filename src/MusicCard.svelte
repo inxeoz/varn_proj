@@ -46,7 +46,9 @@
         if ($activeMusicId !== music_id) {
             stopMusic();
             activeMusicId.set(music_id);
-            setSrcMusic(audioSrc); // <-- Now handled by the reactive statement above!
+
+            console.log("slider value ", sliderValue, " duration ", audioDuration )
+            setSrcMusic(audioSrc, sliderValue * audioDuration); // <-- Now handled by the reactive statement above!
             // return; // Don't return! Let playMusic() run after switching.
         }
 
