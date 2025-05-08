@@ -2,9 +2,15 @@
     import pauseIcon from './assets/paused.svg';
     import playIcon from './assets/playing.svg';
     import Slider from "./Slider.svelte";
-    import { MusicState, StartChnageMusicTimingFromSlider, activeMusicId } from "./lib/store";
-    import { playMusic, setSrcMusic, seekMusic, stopMusic, pauseMusic, audioInstance } from './lib/audioStore';
-    import { onMount, onDestroy } from "svelte";
+    import {
+        activeMusicId,
+        LastPlaybackTime,
+        MusicState,
+        OnTimeMusicStateChange,
+        StartChnageMusicTimingFromSlider
+    } from "./lib/store";
+    import {audioInstance, pauseMusic, playMusic, seekMusic, setSrcMusic, stopMusic} from './lib/audioStore';
+    import {onDestroy, onMount} from "svelte";
 
     export let poster_background_color = '#eb5e28';
     export let song_title = "(0_1)";
@@ -14,7 +20,7 @@
 
     let sliderValue = 0;
     let audioDuration = 0;
-    let local_music_state = MusicState.Paused;
+    let local_music_state = $OnTimeMusicStateChange;
     let currentTime = 0;
     let instance: HTMLAudioElement;
 
@@ -50,6 +56,7 @@
             activeMusicId.set(music_id);
             setSrcMusic(audioSrc, sliderValue * audioDuration);
         }
+
     }
 
     function localPlayMusic() {
@@ -66,27 +73,52 @@
     const unsubscribe = activeMusicId.subscribe(id => {
         if (id !== music_id && local_music_state === MusicState.Playing) {
             local_music_state = MusicState.Paused;
-            stopMusic();
+          //  stopMusic(); // remove this motherfucker <----
         }
     });
 
+
+    let audioUnsub: () => void;
+
     onMount(() => {
-        const audioUnsub = audioInstance.subscribe(audio => {
+        console.log('[MOUNT] Song component mounted:', music_id);
+
+        if (music_id === $activeMusicId) {
+            console.log('[MOUNT] Active track - initial local state:', local_music_state);
+           // playMusic()
+        }
+
+        audioUnsub = audioInstance.subscribe(audio => {
             instance = audio;
+
+            if (music_id === $activeMusicId) {
+                console.log('[AUDIO READY] Subscribed and active - local state:', local_music_state);
+            }
 
             instance.addEventListener('play', handleCallbackPlay);
             instance.addEventListener('pause', handleCallbackPause);
             instance.addEventListener('timeupdate', handleCallbackTimeUpdate);
         });
-
-        onDestroy(() => {
-            unsubscribe();
-            instance?.removeEventListener('play', handleCallbackPlay);
-            instance?.removeEventListener('pause', handleCallbackPause);
-            instance?.removeEventListener('timeupdate', handleCallbackTimeUpdate);
-            audioUnsub();
-        });
     });
+
+    onDestroy(() => {
+        console.log('[DESTROY] Song component unmounted:', music_id);
+
+        unsubscribe();
+
+        instance?.removeEventListener('play', handleCallbackPlay);
+        instance?.removeEventListener('pause', handleCallbackPause);
+        instance?.removeEventListener('timeupdate', handleCallbackTimeUpdate);
+
+        audioUnsub?.();
+
+        if (music_id === $activeMusicId) {
+            console.log('[DESTROY] Saving local music state:', local_music_state);
+            OnTimeMusicStateChange.set(local_music_state);
+        }
+    });
+
+
 </script>
 
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
