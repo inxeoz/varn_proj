@@ -2,7 +2,7 @@
     import pauseIcon from './assets/paused.svg';
     import playIcon from './assets/playing.svg';
     import Slider from "./Slider.svelte";
-    import { MusicState, StartChnageMusicTimingFromSlider, activeMusicId } from "./lib/store";
+    import {  StartChnageMusicTimingFromSlider, activeMusicId } from "./lib/store";
     import { playMusic, setSrcMusic, seekMusic, stopMusic, pauseMusic, audioInstance } from './lib/audioStore';
     import { onMount, onDestroy } from "svelte";
 
@@ -14,17 +14,10 @@
 
     let sliderValue = 0;
     let audioDuration = 0;
-    let local_music_state = MusicState.Paused;
     let currentTime = 0;
 
-    function handlePlay() {
-        if ($activeMusicId !== music_id) return;
-        local_music_state = MusicState.Playing;
-    }
-    function handlePause() {
-        if ($activeMusicId !== music_id) return;
-        local_music_state = MusicState.Paused;
-    }
+    let local_music_status = "playing"
+
     function handleTimeUpdate() {
         if ($activeMusicId !== music_id) return;
         currentTime = $audioInstance.currentTime;
@@ -41,53 +34,12 @@
         }
     }
 
-    function ToggleMusicState() {
-        // 2. Only change activeMusicId and setSrcMusic if switching tracks
-        if ($activeMusicId !== music_id) {
-            stopMusic();
-            activeMusicId.set(music_id);
-
-            console.log("slider value ", sliderValue, " duration ", audioDuration )
-            setSrcMusic(audioSrc, sliderValue * audioDuration); // <-- Now handled by the reactive statement above!
-            // return; // Don't return! Let playMusic() run after switching.
-        }
-
-        if (local_music_state === MusicState.Playing) {
-            local_music_state = MusicState.Paused;
-            pauseMusic();
-        } else {
-            local_music_state = MusicState.Playing;
-            playMusic();
-        }
-    }
-
-    // Listen for global music state changes
-    const unsubscribe = activeMusicId.subscribe(id => {
-        if (id !== music_id && local_music_state === MusicState.Playing) {
-            local_music_state = MusicState.Paused;
-            stopMusic();
-        }
-    });
-
-    onMount(() => {
-        $audioInstance.addEventListener('play', handlePlay);
-        $audioInstance.addEventListener('pause', handlePause);
-        $audioInstance.addEventListener('timeupdate', handleTimeUpdate);
-    });
-
-    onDestroy(() => {
-        unsubscribe();
-        $audioInstance.removeEventListener('play', handlePlay);
-        $audioInstance.removeEventListener('pause', handlePause);
-        $audioInstance.removeEventListener('timeupdate', handleTimeUpdate);
-    });
-
 
     function localPlayMusic () {
         if ($activeMusicId !== music_id) {
             stopMusic();
             activeMusicId.set(music_id);
-            //  console.log("slider value ", sliderValue, " duration ", audioDuration )
+          //  console.log("slider value ", sliderValue, " duration ", audioDuration )
             setSrcMusic(audioSrc, sliderValue * audioDuration); // <-- Now handled by the reactive statement above!
         }
         playMusic()
@@ -102,27 +54,47 @@
         }
         pauseMusic()
     }
+
+    // Listen for global music state changes
+    const unsubscribe = activeMusicId.subscribe(id => {
+        if (id !== music_id ) {
+            //local_music_state = MusicState.Paused;
+            localPauseMusic()
+            stopMusic();
+        }
+    });
+
+    onMount(() => {
+        $audioInstance.addEventListener('timeupdate', handleTimeUpdate);
+    });
+
+    onDestroy(() => {
+        unsubscribe();
+        $audioInstance.removeEventListener('timeupdate', handleTimeUpdate);
+    });
+
 </script>
 
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
+
     <div class="music_card_player global_center_div">
         <div class="music_poster">
             <img src={poster_svg} alt="coffin music">
         </div>
+
         <div class="music_player global_center_div">
 
+            {#if local_music_status === "playing" }
 
-            {#if local_music_state === MusicState.Playing  }
                 <div class="play_pause global_center_div" on:click={()=> localPauseMusic()}>
-                    <img src={playIcon} alt="pause music">
+                        <img src={pauseIcon} alt="pause music">
                 </div>
 
             {:else}
                 <div class="play_pause global_center_div" on:click={()=> localPlayMusic()}>
-                    <img src={pauseIcon} alt="play music">
+                        <img src={playIcon} alt="play music">
                 </div>
             {/if}
-
 
             <Slider
                     value={sliderValue}
@@ -135,7 +107,9 @@
                     knobColor="#ffffff"
             />
         </div>
+
     </div>
+
     <div class="music_info global_font">{song_title}</div>
 </div>
 

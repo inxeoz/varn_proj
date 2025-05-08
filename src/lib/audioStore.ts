@@ -1,4 +1,5 @@
-import { writable, type Writable } from 'svelte/store';
+import {writable, type Writable} from 'svelte/store';
+
 
 // Create audio element outside of Svelte components
 const audio = new Audio();
@@ -19,8 +20,12 @@ export function setSrcMusic(src: string, seekTime: number = 0) {
     }
 }
 // Controls
-export function playMusic() { audio.play(); }
-export function pauseMusic() { audio.pause(); }
+export function playMusic() {
+    audio.play();
+}
+export function pauseMusic() {
+    audio.pause();
+}
 export function stopMusic() {
     audio.pause();
     audio.currentTime = 0;
