@@ -7,6 +7,7 @@
     import desparation_song from './assets/desparation_song.svg'
     import king_song from './assets/king_song.svg'
     import waqt_song from './assets/waqt_song.svg'
+    import intzar_song from './assets/intzar_song.svg'
 
     // let songs = [
     //     {
@@ -82,6 +83,14 @@
             poster_svg: waqt_song,
             poster_background_color: "#22e45c"
         },
+
+        {
+            song_title: "Intzar ",
+            audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3",
+            poster_svg: intzar_song,
+            poster_background_color: "#0466c8"
+        },
+
 
     ];
 </script>
