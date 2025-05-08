@@ -1,21 +1,9 @@
 import { writable, type Writable } from 'svelte/store';
-import { musicSrc , MusicInLoop} from './musicStore';
 
 // Create audio element outside of Svelte components
 const audio = new Audio();
 audio.loop = true;
 
-// Reactively update audio.src when musicSrc changes
-musicSrc.subscribe((src) => {
-    if (src) {
-        audio.src = src;
-        audio.load();
-    }
-});
-
-MusicInLoop.subscribe(InLoop => {
-    audio.loop = InLoop;
-});
 
 export const audioInstance: Writable<HTMLAudioElement> = writable(audio);
 

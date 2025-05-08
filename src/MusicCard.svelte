@@ -1,14 +1,10 @@
 <script lang="ts">
-
     import pauseIcon from './assets/pause.svg';
     import playIcon from './assets/play.svg';
     import Slider from "./Slider.svelte";
-    import { CurrentMusicState, MusicState, StartChnageMusicTimingFromSlider, activeMusicId } from "./lib/store";
-
-    import { playMusic, setSrcMusic, seekMusic, stopMusic, pauseMusic, toggleMuteMusic, audioInstance } from './lib/audioStore';
-
+    import { MusicState, StartChnageMusicTimingFromSlider, activeMusicId } from "./lib/store";
+    import { playMusic, setSrcMusic, seekMusic, stopMusic, pauseMusic, audioInstance } from './lib/audioStore';
     import { onMount, onDestroy } from "svelte";
-    import {musicSrc} from "./lib/musicStore";
 
     export let poster_background_color = '#eb5e28';
     export let song_title = "(0_1)";
@@ -19,58 +15,25 @@
     let sliderValue = 0;
     let audioDuration = 0;
     let local_music_state = MusicState.Stopped;
-    let progress = 0;
     let currentTime = 0;
-    let audioTitle = '';
 
-    // Set the audio source when component mounts or audioSrc changes
-    //$: setSrcMusic(audioSrc);
-
-    // Audio event handlers
     function handlePlay() {
-
-        if ($activeMusicId !== music_id) {
-          return;
-        }
+        if ($activeMusicId !== music_id) return;
         local_music_state = MusicState.Playing;
     }
     function handlePause() {
-        if ($activeMusicId !== music_id) {
-            return;
-        }
-
+        if ($activeMusicId !== music_id) return;
         local_music_state = MusicState.Paused;
     }
     function handleTimeUpdate() {
-
-        if ($activeMusicId !== music_id) {
-            return;
-        }
-
+        if ($activeMusicId !== music_id) return;
         currentTime = $audioInstance.currentTime;
         audioDuration = $audioInstance.duration || 0;
-        progress = audioDuration ? (currentTime / audioDuration) * 100 : 0;
         sliderValue = currentTime / (audioDuration || 1);
-    }
-    function handleLoadedMetadata() {
-
-        if ($activeMusicId !== music_id) {
-            return;
-        }
-
-        audioDuration = $audioInstance.duration;
-        try {
-            audioTitle = decodeURIComponent(audioSrc.split('/').pop() || 'Unknown');
-        } catch {
-            audioTitle = audioSrc;
-        }
     }
 
     function handleSliderChange(val: number) {
-        if ($activeMusicId !== music_id) {
-            return;
-        }
-
+        if ($activeMusicId !== music_id) return;
         if ($StartChnageMusicTimingFromSlider) {
             seekMusic(val * audioDuration);
         } else {
@@ -78,15 +41,13 @@
         }
     }
 
-    function jumpTo30() {
-        seekMusic(30);
-    }
-
     function ToggleMusicState() {
-
+        // 2. Only change activeMusicId and setSrcMusic if switching tracks
         if ($activeMusicId !== music_id) {
+            stopMusic();
             activeMusicId.set(music_id);
-            musicSrc.set(audioSrc);
+            setSrcMusic(audioSrc); // <-- Now handled by the reactive statement above!
+            // return; // Don't return! Let playMusic() run after switching.
         }
 
         if (local_music_state === MusicState.Playing) {
@@ -102,27 +63,22 @@
     const unsubscribe = activeMusicId.subscribe(id => {
         if (id !== music_id && local_music_state === MusicState.Playing) {
             local_music_state = MusicState.Paused;
-            stop();
+            stopMusic();
         }
     });
 
     onMount(() => {
-        // Attach event listeners
         $audioInstance.addEventListener('play', handlePlay);
         $audioInstance.addEventListener('pause', handlePause);
         $audioInstance.addEventListener('timeupdate', handleTimeUpdate);
-        $audioInstance.addEventListener('loadedmetadata', handleLoadedMetadata);
     });
 
     onDestroy(() => {
         unsubscribe();
-        // Remove event listeners
         $audioInstance.removeEventListener('play', handlePlay);
         $audioInstance.removeEventListener('pause', handlePause);
         $audioInstance.removeEventListener('timeupdate', handleTimeUpdate);
-        $audioInstance.removeEventListener('loadedmetadata', handleLoadedMetadata);
     });
-
 </script>
 
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color}">
@@ -152,6 +108,7 @@
     </div>
     <div class="music_info global_font">{song_title}</div>
 </div>
+
 
 
 <style>
