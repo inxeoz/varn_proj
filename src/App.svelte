@@ -5,9 +5,11 @@
   import {CurrentTab} from "./lib/store";
   import Footer from "./Footer.svelte";
   import About from "./About.svelte";
+  import OverlayGoUp from "./lib/OverlayGoUp.svelte";
 
 </script>
 
+<OverlayGoUp/>
 <div class="main global_center_div">
   <TitleName/>
   <Navigation/>
