@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import dp from './assets/dp.png'
+    let dp = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music_thumbnail/dp.png"
 </script>
 
 <div class="about_main global_center_div global_font">

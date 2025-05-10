@@ -1,93 +1,50 @@
 <script lang="ts">
 
-    import coffin_song from "./assets/coffin_song.svg";
     import MusicCard from "./MusicCard.svelte";
     import Separator from "./Separator.svelte";
-    import lost_song from './assets/lost_song.svg'
-    import desparation_song from './assets/desparation_song.svg'
-    import king_song from './assets/king_song.svg'
-    import waqt_song from './assets/waqt_song.svg'
-    import intzar_song from './assets/intzar_song.svg'
 
-    // let songs = [
-    //     {
-    //         song_title: "Coffin prod.@Jaymonbeats",
-    //         audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3",
-    //         poster_svg: coffin_song,
-    //         poster_background_color: "#eb5e28"
-    //     },
-    //
-    //     {
-    //         song_title: "lost ",
-    //         audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3",
-    //         poster_svg: lost_song,
-    //         poster_background_color: "#fb6376"
-    //     },
-    //
-    //     {
-    //         song_title: "Desperation - VARN - prod.@theskybeats",
-    //         audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Desperation+-+VARN+-+prod.%40theskybeats+-+OFFICIAL+MUSIC+VIDEO.mp3",
-    //         poster_svg: desparation_song,
-    //         poster_background_color: "#82c0cc"
-    //     },
-    //
-    //     {
-    //         song_title: "King - VARN - MV - @prodbyaneeq",
-    //         audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/King+-+VARN+-+MV+-+%40prodbyaneeq.mp3",
-    //         poster_svg: king_song,
-    //         poster_background_color: "#1b9aaa"
-    //     },
-    //
-    //     {
-    //         song_title: "IN Waqt - VARN - Prod. by - ‪@hiyori730‬",
-    //         audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Waqt+-+VARN+-+Prod.+by+-+%40hiyori730.mp3",
-    //         poster_svg: waqt_song,
-    //         poster_background_color: "#22e45c"
-    //     },
-    //
-    // ];
 
 
     let songs = [
         {
             song_title: "Coffin prod.@Jaymonbeats",
             audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Coffin+VARN+New+rap+song+2023+prod.+%40Jaymonbeats.mp3",
-            poster_svg: coffin_song,
+            poster_svg: "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music_thumbnail/coffin_song.svg",
             poster_background_color: "#eb5e28"
         },
 
         {
             song_title: "lost ",
             audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Lost+-+VARN+x+DAN14+-+Prod.by+-+elzio.mp3",
-            poster_svg: lost_song,
+            poster_svg: "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music_thumbnail/lost_song.svg",
             poster_background_color: "#fb6376"
         },
 
         {
             song_title: "Desperation - VARN - prod.@theskybeats",
             audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Desperation+-+VARN+-+prod.%40theskybeats+-+OFFICIAL+MUSIC+VIDEO.mp3",
-            poster_svg: desparation_song,
+            poster_svg: "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music_thumbnail/desparation_song.svg",
             poster_background_color: "#82c0cc"
         },
 
         {
             song_title: "King - VARN - MV - @prodbyaneeq",
             audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/King+-+VARN+-+MV+-+%40prodbyaneeq.mp3",
-            poster_svg: king_song,
+            poster_svg: "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music_thumbnail/king_song.svg",
             poster_background_color: "#1b9aaa"
         },
 
         {
             song_title: "IN Waqt - VARN - Prod. by - ‪@hiyori730‬",
             audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/Waqt+-+VARN+-+Prod.+by+-+%40hiyori730.mp3",
-            poster_svg: waqt_song,
+            poster_svg: "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music_thumbnail/waqt_song.svg",
             poster_background_color: "#22e45c"
         },
 
         {
             song_title: "Intzar ",
             audioSrc: "https://varn-music-list.s3.ap-south-1.amazonaws.com/INTZAR+-+VARN+-+VISUALISER.mp3",
-            poster_svg: intzar_song,
+            poster_svg: "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music_thumbnail/intzar_song.svg",
             poster_background_color: "#0466c8"
         },
 

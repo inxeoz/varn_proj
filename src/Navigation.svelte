@@ -1,7 +1,10 @@
 <script lang="ts">
-    import music from './assets/music.svg';
-    import about from './assets/about.svg';
-    import link from './assets/link.svg';
+
+
+    let music_svg =  "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/music.svg";
+    let about_svg =  "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/about.svg";
+    let link_svg = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/link.svg";
+
     import {CurrentTab} from "./lib/store";
 
     let activeTab = 'Songs';
@@ -18,7 +21,7 @@
             on:click={() => onTabClick('Songs')}
             type="button"
     >
-        <img src={music} alt="music" class="icon_songs" />
+        <img src={music_svg} alt="music" class="icon_songs" height="25px"/>
         <div class="title_song title {activeTab === 'Songs' ? 'active_title' : ''}">
             Songs
         </div>
@@ -29,7 +32,7 @@
             on:click={() => onTabClick('About')}
             type="button"
     >
-        <img src={about} alt="about" class="icon_about" />
+        <img src={about_svg} alt="about" class="icon_about" height="25px" />
         <div class="title_about title {activeTab === 'About' ? 'active_title' : ''}">
             About
         </div>
@@ -40,7 +43,7 @@
             on:click={() => onTabClick('Links')}
             type="button"
     >
-        <img src={link} alt="links" class="icon_links" />
+        <img src={link_svg} alt="links" class="icon_links" height="25px" />
         <div class="title_links title {activeTab === 'Links' ? 'active_title' : ''}">
             Links
         </div>

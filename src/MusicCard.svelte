@@ -1,6 +1,8 @@
 <script lang="ts">
-    import pauseIcon from './assets/paused.svg';
-    import playIcon from './assets/playing.svg';
+
+    let pauseIcon = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/paused.svg";
+    let  playIcon = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/playing.svg"
+
     import Slider from "./Slider.svelte";
     import {
         activeMusicId,

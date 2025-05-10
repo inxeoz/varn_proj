@@ -1,11 +1,9 @@
 <script lang="ts">
 
-    import mail from './assets/mail.svg'
-    import youtube from './assets/youtube.svg'
-
-    import insta from './assets/insta.svg';
-
-    import K from './assets/K.svg'
+    let mail = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/mail.svg"
+    let youtube = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/youtube.svg"
+    let insta = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/insta.svg"
+    let K = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/K.svg"
 </script>
 <div
         class="footer_main global_center_div">
