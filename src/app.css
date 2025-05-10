@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'Akira';
-    src: url('./assets/fonts/Akira.otf') format('opentype');
+    src: url("https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/fonts/Akira.otf") format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'JetBrains Mono';
-    src: url('assets/fonts/JetBrainsMono-Regular.ttf') format('opentype');
+    src: url('https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/fonts/JetBrainsMono-Regular.ttf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
