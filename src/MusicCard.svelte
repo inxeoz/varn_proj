@@ -1,7 +1,9 @@
 <script lang="ts">
 
+    import Separator from "./Separator.svelte";
     let pauseIcon = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/paused.svg";
-    let  playIcon = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/playing.svg"
+    let playIcon = "https://varn-music-list.s3.ap-south-1.amazonaws.com/assets/playing.svg"
+    export let separator = false;
 
     import Slider from "./Slider.svelte";
     import {
@@ -126,6 +128,8 @@
 
 </script>
 
+<main class="music_card_with_separator">
+
 <div class="music_card_main global_center_div" style="--poster-background-color: {poster_background_color};
 --card-stroke-width: {card_stroke_width}rem;
 --card-stroke-color: {card_stroke_color};
@@ -163,7 +167,17 @@
     <div class="music_info global_font">{song_title}</div>
 </div>
 
+    {#if separator }
+        <Separator />
+    {/if}
+</main>
+
+
 <style>
+
+    .music_card_with_separator {
+        row-gap: 10rem;
+    }
     .play_pause {
         max-height: 20px;
         max-width: 20px;

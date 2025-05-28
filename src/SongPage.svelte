@@ -57,17 +57,22 @@
         <MusicCard poster_svg={song.poster_svg} poster_background_color={song.poster_background_color}
                    song_title={song.song_title}
                    audioSrc={song.audioSrc}
-                   music_id={index}/>
-        <Separator/>
+                   music_id={index}
+                   separator={true}
+        />
+
     {/each}
 </div>
 
 <style>
 
     .song_page_main {
-        flex-direction: column;
-        justify-content: space-evenly;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         gap: 2rem;
-
+        height: 100%;
     }
 </style>
