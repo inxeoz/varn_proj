@@ -12,4 +12,4 @@ export enum MusicState {
 
 export const OnTimeMusicStateChange = writable<MusicState>(MusicState.Paused);
 export const LastPlaybackTime = writable(0)
-export const PlayDisk =writable(false)
+export const PlayDisk =writable(true)
