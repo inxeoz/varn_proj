@@ -20,7 +20,7 @@
         </div>
         <div class="yt_links global_center_div"
 
-             on:click={() => window.open('https://www.youtube.com/@VARN.MUSIC777', '_blank', 'noopener,noreferrer')
+             on:click={() => window.open('https://www.youtube.com/@MeinVarn', '_blank', 'noopener,noreferrer')
 
              }
         >
