@@ -25,7 +25,7 @@
              }
         >
             <img src={youtube} alt="youtube channel">
-            @VARN.MUSIC777
+            @MeinVarn
         </div>
         <div class="mail_addr global_center_div"
 
