@@ -1,6 +1,7 @@
-import { sveltekit } from "@sveltejs/kit/vite";
-import svg from "@poppanator/sveltekit-svg";
+import { defineConfig } from 'vite'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 
-export default {
-  plugins: [sveltekit(), svg()],
-};
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [svelte()],
+})
